@@ -1,20 +1,176 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>História de Parelhas</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f1ea;
+            color: #292929;
+        }
+
+        header {
+            background-color: #3f3025;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 42px;
+        }
+
+        header p {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .pesquisa {
+            background-color: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .pesquisa h2 {
+            margin-top: 0;
+        }
+
+        .campo {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 15px 25px;
+            background-color: #6b4f3a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #4f392a;
+        }
+
+        .secoes {
+            margin-top: 40px;
+        }
+
+        .secoes h2 {
+            margin-bottom: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 30px;
+            text-align: center;
+            background-color: #3f3025;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>História de Parelhas</h1>
+    <header>
+        <h1>História de Parelhas</h1>
+        <p>Portal do acervo histórico do município</p>
+    </header>
 
-    <p>Portal do acervo histórico de Parelhas.</p>
+    <main>
 
-    <input type="text" placeholder="O que você quer saber?">
+        <section class="pesquisa">
 
-    <button>Pesquisar</button>
+            <h2>O que você quer saber?</h2>
+
+            <div class="campo">
+                <input
+                    type="text"
+                    placeholder="Digite uma pergunta sobre a história de Parelhas"
+                >
+
+                <button>Pesquisar</button>
+            </div>
+
+        </section>
+
+        <section class="secoes">
+
+            <h2>Explore o acervo</h2>
+
+            <div class="cards">
+
+                <div class="card">
+                    <h3>Documentos</h3>
+                    <p>Livros, leis, jornais e outros documentos históricos.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Fotografias</h3>
+                    <p>Fotografias históricas do município e de sua população.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Personagens</h3>
+                    <p>Pessoas que fizeram parte da história de Parelhas.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Lugares</h3>
+                    <p>Lugares importantes para a história do município.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        Portal de História de Parelhas
+    </footer>
 
 </body>
+
 </html>
