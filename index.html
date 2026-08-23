@@ -130,7 +130,7 @@
                     placeholder="Digite uma pergunta sobre a história de Parelhas"
                 >
 
-                <button>Pesquisar</button>
+                <button onclick="pesquisar()">Pesquisar</button>
             </div>
 
         </section>
@@ -170,9 +170,46 @@
     <footer>
         Portal de História de Parelhas
     </footer>
-    
-    <script src="documentos.js"></script>
-    
+
+<script src="documentos.js"></script>
+
+<script>
+
+function pesquisar() {
+
+    const pergunta = document.querySelector("input").value.toLowerCase();
+
+    if (pergunta.trim() === "") {
+        alert("Digite alguma coisa para pesquisar.");
+        return;
+    }
+
+    const resultados = documentos.filter(function(documento) {
+
+        return documento.texto.toLowerCase().includes(pergunta);
+
+    });
+
+    if (resultados.length === 0) {
+
+        alert("Nenhum documento encontrado.");
+
+    } else {
+
+        let mensagem = "Documentos encontrados:\n\n";
+
+        resultados.forEach(function(documento) {
+
+            mensagem += documento.titulo + " (" + documento.ano + ")\n";
+
+        });
+
+        alert(mensagem);
+    }
+}
+
+</script>
+
 </body>
 
 </html>
