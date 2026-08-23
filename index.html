@@ -181,8 +181,10 @@ function pesquisar() {
 
     const pergunta = document.querySelector("input").value.toLowerCase();
 
+    const areaResultados = document.querySelector("#resultados");
+
     if (pergunta.trim() === "") {
-        alert("Digite alguma coisa para pesquisar.");
+        areaResultados.innerHTML = "<p>Digite alguma coisa para pesquisar.</p>";
         return;
     }
 
@@ -194,22 +196,28 @@ function pesquisar() {
 
     if (resultados.length === 0) {
 
-        alert("Nenhum documento encontrado.");
+        areaResultados.innerHTML = "<p>Nenhum documento encontrado.</p>";
+        return;
 
-    } else {
-
-        let mensagem = "Documentos encontrados:\n\n";
-
-        resultados.forEach(function(documento) {
-
-            mensagem += documento.titulo + " (" + documento.ano + ")\n";
-
-        });
-
-        alert(mensagem);
     }
-}
 
+    let html = "<h2>Resultados</h2>";
+
+    resultados.forEach(function(documento) {
+
+        html += `
+            <div class="card">
+                <h3>${documento.titulo}</h3>
+                <p><strong>Ano:</strong> ${documento.ano}</p>
+                <p>${documento.texto}</p>
+            </div>
+        `;
+
+    });
+
+    areaResultados.innerHTML = html;
+}
+    
 </script>
 
 </body>
