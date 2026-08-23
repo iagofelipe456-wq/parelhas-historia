@@ -8,6 +8,7 @@
     <title>História de Parelhas</title>
 
     <style>
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -76,29 +77,44 @@
             background-color: #4f392a;
         }
 
-        .secoes {
-            margin-top: 40px;
-        }
-
-        .secoes h2 {
-            margin-bottom: 20px;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        #resultados {
+            margin-top: 30px;
         }
 
         .card {
             background-color: white;
             padding: 25px;
+            margin-bottom: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .card h3 {
             margin-top: 0;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #6b4f3a;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .card a:hover {
+            background-color: #4f392a;
+        }
+
+        .secoes {
+            margin-top: 40px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
         }
 
         footer {
@@ -108,15 +124,21 @@
             background-color: #3f3025;
             color: white;
         }
+
     </style>
+
 </head>
 
 <body>
 
     <header>
+
         <h1>História de Parelhas</h1>
+
         <p>Portal do acervo histórico do município</p>
+
     </header>
+
 
     <main>
 
@@ -125,17 +147,24 @@
             <h2>O que você quer saber?</h2>
 
             <div class="campo">
+
                 <input
                     type="text"
-                    placeholder="Digite uma pergunta sobre a história de Parelhas"
+                    id="campoPesquisa"
+                    placeholder="Digite uma palavra ou expressão"
                 >
 
-                <button onclick="pesquisar()">Pesquisar</button>
+                <button onclick="pesquisar()">
+                    Pesquisar
+                </button>
+
             </div>
 
-            <div id="resultados"></div>
-
         </section>
+
+
+        <div id="resultados"></div>
+
 
         <section class="secoes">
 
@@ -169,80 +198,193 @@
 
     </main>
 
+
     <footer>
+
         Portal de História de Parelhas
+
     </footer>
 
-<script src="documentos.js"></script>
 
-<script>
+    <script>
 
-function pesquisar() {
+        let acervo = [];
 
-    const pergunta = document.querySelector("input").value.toLowerCase();
 
-    const areaResultados = document.querySelector("#resultados");
+        fetch("acervo.json")
 
-    if (pergunta.trim() === "") {
-        areaResultados.innerHTML = "<p>Digite alguma coisa para pesquisar.</p>";
-        return;
-    }
+            .then(function(resposta) {
 
-    const resultados = documentos.filter(function(documento) {
+                return resposta.json();
 
-        return documento.texto.toLowerCase().includes(pergunta);
+            })
 
-    });
+            .then(function(dados) {
 
-    if (resultados.length === 0) {
+                acervo = dados;
 
-        areaResultados.innerHTML = "<p>Nenhum documento encontrado.</p>";
-        return;
+                console.log("Acervo carregado:", acervo);
 
-    }
+            })
 
-    let html = "<h2>Resultados</h2>";
+            .catch(function(erro) {
 
-    resultados.forEach(function(documento) {
+                console.error("Erro ao carregar o acervo:", erro);
 
-        const texto = documento.texto;
-        const textoMinusculo = texto.toLowerCase();
+            });
 
-        const posicao = textoMinusculo.indexOf(pergunta);
 
-        let inicio = Math.max(0, posicao - 120);
-        let fim = Math.min(texto.length, posicao + pergunta.length + 180);
+        function pesquisar() {
 
-        let trecho = texto.substring(inicio, fim);
+            const pergunta =
+                document
+                    .querySelector("#campoPesquisa")
+                    .value
+                    .toLowerCase()
+                    .trim();
 
-        if (inicio > 0) {
-            trecho = "..." + trecho;
+
+            const areaResultados =
+                document.querySelector("#resultados");
+
+
+            if (pergunta === "") {
+
+                areaResultados.innerHTML =
+                    "<p>Digite alguma coisa para pesquisar.</p>";
+
+                return;
+
+            }
+
+
+            let resultados = [];
+
+
+            acervo.forEach(function(documento) {
+
+                documento.paginas.forEach(function(pagina) {
+
+                    const texto =
+                        pagina.texto.toLowerCase();
+
+
+                    if (texto.includes(pergunta)) {
+
+                        resultados.push({
+
+                            arquivo: documento.arquivo,
+
+                            pagina: pagina.pagina,
+
+                            texto: pagina.texto
+
+                        });
+
+                    }
+
+                });
+
+            });
+
+
+            if (resultados.length === 0) {
+
+                areaResultados.innerHTML =
+                    "<p>Nenhum resultado encontrado.</p>";
+
+                return;
+
+            }
+
+
+            let html =
+                "<h2>Resultados encontrados</h2>";
+
+
+            resultados.forEach(function(resultado) {
+
+                const texto = resultado.texto;
+
+                const textoMinusculo =
+                    texto.toLowerCase();
+
+
+                const posicao =
+                    textoMinusculo.indexOf(pergunta);
+
+
+                let inicio =
+                    Math.max(0, posicao - 150);
+
+
+                let fim =
+                    Math.min(
+                        texto.length,
+                        posicao + pergunta.length + 250
+                    );
+
+
+                let trecho =
+                    texto.substring(inicio, fim);
+
+
+                if (inicio > 0) {
+
+                    trecho =
+                        "..." + trecho;
+
+                }
+
+
+                if (fim < texto.length) {
+
+                    trecho =
+                        trecho + "...";
+
+                }
+
+
+                html += `
+
+                    <div class="card">
+
+                        <h3>
+                            ${resultado.arquivo}
+                        </h3>
+
+                        <p>
+                            <strong>
+                                Página:
+                            </strong>
+
+                            ${resultado.pagina}
+                        </p>
+
+                        <p>
+                            ${trecho}
+                        </p>
+
+                        <a
+                            href="pdfs/${resultado.arquivo}"
+                            target="_blank"
+                        >
+                            Abrir documento
+                        </a>
+
+                    </div>
+
+                `;
+
+            });
+
+
+            areaResultados.innerHTML = html;
+
         }
 
-        if (fim < texto.length) {
-            trecho = trecho + "...";
-        }
+    </script>
 
-        html += `
-            <div class="card">
-                <h3>${documento.titulo}</h3>
-
-                <p><strong>Ano:</strong> ${documento.ano}</p>
-
-                <p>${trecho}</p>
-
-                <a href="${documento.arquivo}" target="_blank">
-                    Abrir documento
-                </a>
-            </div>
-        `;
-
-    });
-
-    areaResultados.innerHTML = html;
-}
-    
-</script>
 
 </body>
 
