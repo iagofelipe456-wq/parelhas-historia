@@ -205,11 +205,31 @@ function pesquisar() {
 
     resultados.forEach(function(documento) {
 
+        const texto = documento.texto;
+        const textoMinusculo = texto.toLowerCase();
+
+        const posicao = textoMinusculo.indexOf(pergunta);
+
+        let inicio = Math.max(0, posicao - 120);
+        let fim = Math.min(texto.length, posicao + pergunta.length + 180);
+
+        let trecho = texto.substring(inicio, fim);
+
+        if (inicio > 0) {
+            trecho = "..." + trecho;
+        }
+
+        if (fim < texto.length) {
+            trecho = trecho + "...";
+        }
+
         html += `
             <div class="card">
                 <h3>${documento.titulo}</h3>
+
                 <p><strong>Ano:</strong> ${documento.ano}</p>
-                <p>${documento.texto}</p>
+
+                <p>${trecho}</p>
             </div>
         `;
 
